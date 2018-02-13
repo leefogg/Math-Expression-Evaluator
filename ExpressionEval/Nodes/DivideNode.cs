@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExpressionEval.Nodes {
 	public class DivideNode : ArithmeticNode {
+		public DivideNode() : base() { }
 		public DivideNode(Node left, Node right) : base(left, right) { }
 
 		public override int value => left / right;
