@@ -49,6 +49,13 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_PlusPrefix() {
+			int result = Evaluator.evaluate("+1");
+
+			Assert.AreEqual(1, result);
+		}
+
+		[TestMethod]
 		public void Evaluator_ConstantInManyBrackets() {
 			int result = Evaluator.evaluate("((((42))))");
 
@@ -84,10 +91,24 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_SubtractNegitive() {
+			int result = Evaluator.evaluate("10 - -1");
+
+			Assert.AreEqual(11, result);
+		}
+
+		[TestMethod]
 		public void Evaluator_WholeExpressionInBrackets() {
 			int result = Evaluator.evaluate("(1+1)");
 
 			Assert.AreEqual(2, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_BODMAS() {
+			int result = Evaluator.evaluate("(13-3)+2*10/2");
+
+			Assert.AreEqual(20, result);
 		}
 
 		[TestMethod]
