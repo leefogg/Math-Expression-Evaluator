@@ -19,7 +19,7 @@ namespace ExpressionEval {
 			int index = startindex;
 			List<Node> nodes = new List<Node>();
 
-			while (expression[index] != ')') {
+			while (index < expression.Length && expression[index] != ')') {
 				int subexplength = 0;
 				if (expression[index].isNumber()) {
 					var numberend = findEndOfNumber(index, expression);
@@ -37,14 +37,14 @@ namespace ExpressionEval {
 					nodes.Add(getArithmaticNode(op));
 					nodes.Add(rightexpression);
 
-					index += subexplength + 1;
+					index += subexplength;
 				} else if (expression[index] == '(') {
 					nodes.Add(buildExpression(index + 1, expression, out subexplength));
 					index += subexplength + 1;
 				}
 			}
 
-			length = index - startindex;
+			length = index - startindex + 1;
 			return convergeOperators(nodes);
 		}
 

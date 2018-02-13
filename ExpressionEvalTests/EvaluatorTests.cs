@@ -106,9 +106,9 @@ namespace ExpressionEvalTests {
 
 		[TestMethod]
 		public void Evaluator_BODMAS() {
-			int result = Evaluator.evaluate("(13-3)+2*10/2");
+			int result = Evaluator.evaluate("25-(3+2)*10/2");
 
-			Assert.AreEqual(20, result);
+			Assert.AreEqual(0, result);
 		}
 
 		[TestMethod]
