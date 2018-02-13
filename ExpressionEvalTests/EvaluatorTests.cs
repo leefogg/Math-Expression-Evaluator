@@ -1,6 +1,8 @@
 using ExpressionEval;
+using ExpressionEval.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace ExpressionEvalTests {
 	[TestClass]
@@ -79,6 +81,83 @@ namespace ExpressionEvalTests {
 			int result = Evaluator.evaluate("10/2");
 
 			Assert.AreEqual(5, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_WholeExpressionInBrackets() {
+			int result = Evaluator.evaluate("(1+1)");
+
+			Assert.AreEqual(2, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_convergeOperators_SingleResolve() {
+			List<Node> nodes = new List<Node>() {
+				new ConstantNode(1),
+				new AddNode(),
+				new ConstantNode(1)
+			};
+
+			var resolved = Evaluator.convergeOperators(nodes);
+
+			Assert.IsTrue(resolved is AddNode);
+			Assert.AreEqual(2, resolved);
+		}
+
+		[TestMethod]
+		public void Evaluator_convergeOperators_DoubleResolve() {
+			List<Node> nodes = new List<Node>() {
+				new ConstantNode(1),
+				new AddNode(),
+				new ConstantNode(1),
+				new AddNode(),
+				new ConstantNode(1)
+			};
+
+			var resolved = Evaluator.convergeOperators(nodes);
+
+			Assert.IsTrue(resolved is AddNode);
+			Assert.IsTrue((resolved as AddNode).left is AddNode);
+			Assert.AreEqual(3, resolved);
+		}
+
+		[TestMethod]
+		public void Evaluator_convergeOperators_MultipleResolve() {
+			List<Node> nodes = new List<Node>() {
+				new ConstantNode(1),
+				new AddNode(),
+				new ConstantNode(1),
+				new AddNode(),
+				new ConstantNode(1),
+				new AddNode(),
+				new ConstantNode(1)
+			};
+
+			var resolved = Evaluator.convergeOperators(nodes);
+
+			Assert.IsTrue(resolved is AddNode);
+			Assert.IsTrue((resolved as AddNode).left is AddNode);
+			Assert.IsTrue(((resolved as AddNode).left as AddNode).left is AddNode);
+			Assert.AreEqual(4, resolved);
+		}
+
+		[TestMethod]
+		public void Evaluator_convergeOperators_BODMAS() {
+			List<Node> nodes = new List<Node>() {
+				new ConstantNode(13),
+				new SubtractNode(),
+				new ConstantNode(3),
+				new AddNode(),
+				new ConstantNode(2),
+				new MultiplyNode(),
+				new ConstantNode(10),
+				new DivideNode(),
+				new ConstantNode(2)
+			};
+
+			var resolved = Evaluator.convergeOperators(nodes);
+
+			Assert.AreEqual(0, resolved);
 		}
 	}
 }
