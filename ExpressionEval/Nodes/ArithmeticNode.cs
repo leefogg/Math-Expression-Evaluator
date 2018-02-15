@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace ExpressionEval.Nodes {
 	public abstract class ArithmeticNode : Node {
-		private static readonly ConstantNode zero = new ConstantNode(0);
-
 		public Node 
 			left = zero, 
 			right = zero;

@@ -8,11 +8,24 @@ namespace ExpressionEval {
 		private static readonly char[] operators = new char[] { '+', '-', '*', '/' };
 
 		public static int evaluate(string expression) {
-			expression = expression.Replace(" ", "");
-			expression = $"({expression})";
+			expression = normalizeExpression(expression);
+
 			int explength = 0;
 			var evaluationtree = buildExpression(1, expression, out explength);
 			return evaluationtree.value;
+		}
+
+		public static string normalizeExpression(string expression) {
+			expression = expression.Replace(" ", "");
+
+			if (!expression.StartsWith("("))
+				expression = '(' + expression;
+			if (!expression.EndsWith("("))
+				expression += ')';
+
+			expression = expression.Replace("--", "+");
+
+			return expression;
 		}
 
 		private static Node buildExpression(int startindex, string expression, out int length) {
@@ -33,11 +46,9 @@ namespace ExpressionEval {
 					nodes.Add(constant);
 				} else if (expression[index].isOperator()) {
 					char op = expression[index];
-					var rightexpression = buildExpression(index + 1, expression, out subexplength);
 					nodes.Add(getArithmaticNode(op));
-					nodes.Add(rightexpression);
 
-					index += subexplength;
+					index++;
 				} else if (expression[index] == '(') {
 					nodes.Add(buildExpression(index + 1, expression, out subexplength));
 					index += subexplength + 1;
@@ -45,7 +56,9 @@ namespace ExpressionEval {
 			}
 
 			length = index - startindex + 1;
-			return convergeOperators(nodes);
+
+			var result = convergeOperators(nodes);
+			return result;
 		}
 
 		public static Node convergeOperators(List<Node> nodes) {
@@ -66,11 +79,11 @@ namespace ExpressionEval {
 					continue;
 
 				var @operator = nodes[i] as ArithmeticNode;
-				if (nodes.Count > i) {
+				if (nodes.Count > i && @operator.right == Node.zero) {
 					@operator.right = nodes[i + 1];
 					nodes.RemoveAt(i + 1);
 				}
-				if (i != 0) {
+				if (i != 0 && @operator.left == Node.zero) {
 					@operator.left = nodes[i - 1];
 					nodes.RemoveAt(i - 1);
 					i--;

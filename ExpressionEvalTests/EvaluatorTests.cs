@@ -91,13 +91,6 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
-		public void Evaluator_SubtractNegitive() {
-			int result = Evaluator.evaluate("10 - -1");
-
-			Assert.AreEqual(11, result);
-		}
-
-		[TestMethod]
 		public void Evaluator_WholeExpressionInBrackets() {
 			int result = Evaluator.evaluate("(1+1)");
 
@@ -179,6 +172,13 @@ namespace ExpressionEvalTests {
 			var resolved = Evaluator.convergeOperators(nodes);
 
 			Assert.AreEqual(0, resolved);
+		}
+
+		[TestMethod]
+		public void Evaluator_Harsh() {
+			int result = Evaluator.evaluate("88 / 44 * ((55 / 11 + 1) * 2) - 10 + 10");
+
+			Assert.AreEqual(4, result);
 		}
 	}
 }
