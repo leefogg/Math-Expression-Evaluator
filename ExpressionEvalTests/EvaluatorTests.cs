@@ -204,9 +204,9 @@ namespace ExpressionEvalTests {
 
 		[TestMethod]
 		public void Evaluator_Harsh() {
-			int result = Evaluator.evaluate("88 / 44 * ((55 / 11 + 1) * 2) - 10 + 10");
+			int result = Evaluator.evaluate("100 / 5 + ((88 / 44) * 1) - -(10 -10 + -10)");
 
-			Assert.AreEqual(4, result);
+			Assert.AreEqual(12, result);
 		}
 	}
 }
