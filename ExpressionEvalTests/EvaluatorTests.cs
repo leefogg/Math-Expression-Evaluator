@@ -91,6 +91,34 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_SubtractNegitiveShouldAdd() {
+			int result = Evaluator.evaluate("10 - -1");
+
+			Assert.AreEqual(11, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_SubtractPossitiveShouldSubtract() {
+			int result = Evaluator.evaluate("10 - +1");
+
+			Assert.AreEqual(9, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_AddNegitiveShouldSubtract() {
+			int result = Evaluator.evaluate("10 + -1");
+
+			Assert.AreEqual(9, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_AddPositiveShouldAdd() {
+			int result = Evaluator.evaluate("10 + +1");
+
+			Assert.AreEqual(11, result);
+		}
+
+		[TestMethod]
 		public void Evaluator_WholeExpressionInBrackets() {
 			int result = Evaluator.evaluate("(1+1)");
 

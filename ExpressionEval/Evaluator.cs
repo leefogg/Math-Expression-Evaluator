@@ -23,7 +23,11 @@ namespace ExpressionEval {
 			if (!expression.EndsWith("("))
 				expression += ')';
 
+			// Simplifying here is much simpler than down there
 			expression = expression.Replace("--", "+");
+			expression = expression.Replace("++", "+");
+			expression = expression.Replace("-+", "-");
+			expression = expression.Replace("+-", "-");
 
 			return expression;
 		}
