@@ -133,6 +133,19 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_MultiplyNegitive() {
+			Assert.AreEqual(-10, Evaluator.evaluate("10*-1"));
+			Assert.AreEqual(-20, Evaluator.evaluate("-10*2"));
+		}
+
+		[TestMethod]
+		public void Evaluator_DivideNegitive() {
+			Assert.AreEqual(-10, Evaluator.evaluate("10/-1"));
+			Assert.AreEqual(-5, Evaluator.evaluate("-10/2"));
+		}
+
+
+		[TestMethod]
 		public void Evaluator_convergeOperators_SingleResolve() {
 			List<Node> nodes = new List<Node>() {
 				new ConstantNode(1),
