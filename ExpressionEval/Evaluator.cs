@@ -1,17 +1,16 @@
-﻿using ExpressionEval.Nodes;
-using System;
+﻿using System;
+using ExpressionEval.Nodes;
 using System.Collections.Generic;
 using System.Linq;	 
 
 namespace ExpressionEval {
 	public static class Evaluator {
-		private static readonly char[] operators = new char[] { '+', '-', '*', '/' };
+		private static readonly char[] Operators = { '+', '-', '*', '/' };
 
 		public static int evaluate(string expression) {
 			expression = normalizeExpression(expression);
 
-			int explength = 0;
-			var evaluationtree = buildExpression(1, expression, out explength);
+			var evaluationtree = buildExpression(1, expression, out var explength);
 			return evaluationtree.value;
 		}
 
@@ -33,28 +32,27 @@ namespace ExpressionEval {
 		}
 
 		private static Node buildExpression(int startindex, string expression, out int length) {
-			int index = startindex;
-			List<Node> nodes = new List<Node>();
+			var index = startindex;
+			var nodes = new List<Node>();
 
 			while (index < expression.Length && expression[index] != ')') {
-				int subexplength = 0;
 				if (expression[index].isNumber()) {
 					var numberend = findEndOfNumber(index, expression);
-					string number = expression.Substring(index, numberend - index);
+					var number = expression.Substring(index, numberend - index);
 
-					int value = Int32.Parse(number);
+					var value = int.Parse(number);
 					ConstantNode constant = value;
 
 					index = numberend;
 
 					nodes.Add(constant);
 				} else if (expression[index].isOperator()) {
-					char op = expression[index];
+					var op = expression[index];
 					nodes.Add(getArithmaticNode(op));
 
 					index++;
 				} else if (expression[index] == '(') {
-					nodes.Add(buildExpression(index + 1, expression, out subexplength));
+					nodes.Add(buildExpression(index + 1, expression, out var subexplength));
 					index += subexplength + 1;
 				}
 			}
@@ -77,12 +75,12 @@ namespace ExpressionEval {
 			return nodes[0];
 		}
 
-		private static void convergeOperator<T>(List<Node> nodes) where T : ArithmeticNode {
-			for (int i = 0; i < nodes.Count - 1; i++) {
+		private static void convergeOperator<T>(IList<Node> nodes) where T : ArithmeticNode {
+			for (var i = 0; i < nodes.Count - 1; i++) {
 				if (!(nodes[i] is T))
 					continue;
 
-				var @operator = nodes[i] as ArithmeticNode;
+				var @operator = (ArithmeticNode)nodes[i];
 				if (nodes.Count > i && @operator.right == Node.zero) {
 					@operator.right = nodes[i + 1];
 					nodes.RemoveAt(i + 1);
@@ -119,6 +117,6 @@ namespace ExpressionEval {
 
 		private static bool isNumber(this char character) => character >= '0' && character <= '9';
 
-		private static bool isOperator(this char character) => operators.Any(c => c == character);
+		private static bool isOperator(this char character) => Operators.Any(c => c == character);
 	}
 }
