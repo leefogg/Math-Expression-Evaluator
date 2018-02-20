@@ -66,6 +66,7 @@ namespace ExpressionEval {
 			if (nodes.Count == 1)
 				return nodes[0];
 
+			ConvergeNegitiveExpressions		(nodes);
 			ConvergeOperator<DivideNode>	(nodes);
 			ConvergeOperator<MultiplyNode>	(nodes);
 			ConvergeOperator<AddNode>		(nodes);
@@ -88,6 +89,19 @@ namespace ExpressionEval {
 					@operator.Left = nodes[i - 1];
 					nodes.RemoveAt(i - 1);
 					i--;
+				}
+			}
+		}
+
+		private static void ConvergeNegitiveExpressions(IList<Node> nodes) {
+			for (var i = 0; i < nodes.Count - 1; i++) {
+				if (!(nodes[i] is SubtractNode))
+					continue;
+
+				if ((i == 0 || !(nodes[i - 1] is ConstantNode)) && i < nodes.Count) {
+					var @operator = (SubtractNode)nodes[i];
+					@operator.Right = nodes[i + 1];
+					nodes.RemoveAt(i+1);
 				}
 			}
 		}
