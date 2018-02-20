@@ -70,8 +70,22 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_Add_Multiple() {
+			var result = Evaluator.Evaluate("1+1+1");
+
+			Assert.AreEqual(3, result);
+		}
+
+		[TestMethod]
 		public void Evaluator_Subtract() {
 			var result = Evaluator.Evaluate("1-1");
+
+			Assert.AreEqual(0, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_Subtract_Multiple() {
+			var result = Evaluator.Evaluate("2-1-1");
 
 			Assert.AreEqual(0, result);
 		}
@@ -84,8 +98,22 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_Multiply_Multiple() {
+			var result = Evaluator.Evaluate("5*5*4");
+
+			Assert.AreEqual(100, result);
+		}
+
+		[TestMethod]
 		public void Evaluator_Divide() {
 			var result = Evaluator.Evaluate("10/2");
+
+			Assert.AreEqual(5, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_Divide_Multiple() { 
+			var result = Evaluator.Evaluate("20/2/2");
 
 			Assert.AreEqual(5, result);
 		}
