@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
 using ExpressionEval;
 using ExpressionEval.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 
 namespace ExpressionEvalTests {
 	[TestClass]
 	public class EvaluatorTests {
 		[TestMethod]
 		public void Evaluator_SimpleConstant() {
-			int result = Evaluator.evaluate("42");
+			var result = Evaluator.Evaluate("42");
 
 			Assert.AreEqual(42, result);
 		}
@@ -17,143 +17,144 @@ namespace ExpressionEvalTests {
 		[TestMethod]
 		[ExpectedException(typeof(OverflowException))]
 		public void Evaluator_LargeConstant() {
-			int result = Evaluator.evaluate("44534534635734232");
+			var result = Evaluator.Evaluate("44534534635734232");
 		}
 
 		[TestMethod]
 		public void Evaluator_NegitiveConstant() {
-			int result = Evaluator.evaluate("-42");
+			var result = Evaluator.Evaluate("-42");
 
 			Assert.AreEqual(-42, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_ConstantInBrackets() {
-			int result = Evaluator.evaluate("(42)");
+			var result = Evaluator.Evaluate("(42)");
 
 			Assert.AreEqual(42, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_NegitiveExpression() {
-			int result = Evaluator.evaluate("-(42)");
+			var result = Evaluator.Evaluate("-(42)");
 
 			Assert.AreEqual(-42, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_RemoveWhitespace() {
-			int result = Evaluator.evaluate(" - ( 42 ) ");
+			var result = Evaluator.Evaluate(" - ( 42 ) ");
 
 			Assert.AreEqual(-42, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_PlusPrefix() {
-			int result = Evaluator.evaluate("+1");
+			var result = Evaluator.Evaluate("+1");
 
 			Assert.AreEqual(1, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_ConstantInManyBrackets() {
-			int result = Evaluator.evaluate("((((42))))");
+			var result = Evaluator.Evaluate("((((42))))");
 
 			Assert.AreEqual(42, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_Add() {
-			int result = Evaluator.evaluate("1+1");
+			var result = Evaluator.Evaluate("1+1");
 
 			Assert.AreEqual(2, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_Subtract() {
-			int result = Evaluator.evaluate("1-1");
+			var result = Evaluator.Evaluate("1-1");
 
 			Assert.AreEqual(0, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_Multiply() {
-			int result = Evaluator.evaluate("5*3");
+			var result = Evaluator.Evaluate("5*3");
 
 			Assert.AreEqual(15, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_Divide() {
-			int result = Evaluator.evaluate("10/2");
+			var result = Evaluator.Evaluate("10/2");
 
 			Assert.AreEqual(5, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_SubtractNegitiveShouldAdd() {
-			int result = Evaluator.evaluate("10 - -1");
+			var result = Evaluator.Evaluate("10 - -1");
 
 			Assert.AreEqual(11, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_SubtractPossitiveShouldSubtract() {
-			int result = Evaluator.evaluate("10 - +1");
+			var result = Evaluator.Evaluate("10 - +1");
 
 			Assert.AreEqual(9, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_AddNegitiveShouldSubtract() {
-			int result = Evaluator.evaluate("10 + -1");
+			var result = Evaluator.Evaluate("10 + -1");
 
 			Assert.AreEqual(9, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_AddPositiveShouldAdd() {
-			int result = Evaluator.evaluate("10 + +1");
+			var result = Evaluator.Evaluate("10 + +1");
 
 			Assert.AreEqual(11, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_WholeExpressionInBrackets() {
-			int result = Evaluator.evaluate("(1+1)");
+			var result = Evaluator.Evaluate("(1+1)");
 
 			Assert.AreEqual(2, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_BODMAS() {
-			int result = Evaluator.evaluate("25-(3+2)*10/2");
+			var result = Evaluator.Evaluate("25-(3+2)*10/2");
 
 			Assert.AreEqual(0, result);
 		}
 
 		[TestMethod]
 		public void Evaluator_MultiplyNegitive() {
-			Assert.AreEqual(-10, Evaluator.evaluate("10*-1"));
-			Assert.AreEqual(-20, Evaluator.evaluate("-10*2"));
+			Assert.AreEqual(-10, Evaluator.Evaluate("10*-1"));
+			Assert.AreEqual(-20, Evaluator.Evaluate("-10*2"));
 		}
 
 		[TestMethod]
 		public void Evaluator_DivideNegitive() {
-			Assert.AreEqual(-10, Evaluator.evaluate("10/-1"));
-			Assert.AreEqual(-5, Evaluator.evaluate("-10/2"));
+			Assert.AreEqual(-10, Evaluator.Evaluate("10/-1"));
+			Assert.AreEqual(-5, Evaluator.Evaluate("-10/2"));
 		}
 
 
 		[TestMethod]
 		public void Evaluator_convergeOperators_SingleResolve() {
-			List<Node> nodes = new List<Node>() {
+			var nodes = new List<Node>
+			{
 				new ConstantNode(1),
 				new AddNode(),
 				new ConstantNode(1)
 			};
 
-			var resolved = Evaluator.convergeOperators(nodes);
+			var resolved = Evaluator.ConvergeOperators(nodes);
 
 			Assert.IsTrue(resolved is AddNode);
 			Assert.AreEqual(2, resolved);
@@ -161,7 +162,8 @@ namespace ExpressionEvalTests {
 
 		[TestMethod]
 		public void Evaluator_convergeOperators_DoubleResolve() {
-			List<Node> nodes = new List<Node>() {
+			var nodes = new List<Node>
+			{
 				new ConstantNode(1),
 				new AddNode(),
 				new ConstantNode(1),
@@ -169,16 +171,17 @@ namespace ExpressionEvalTests {
 				new ConstantNode(1)
 			};
 
-			var resolved = Evaluator.convergeOperators(nodes);
+			var resolved = Evaluator.ConvergeOperators(nodes);
 
 			Assert.IsTrue(resolved is AddNode);
-			Assert.IsTrue((resolved as AddNode).left is AddNode);
+			Assert.IsTrue((resolved as AddNode).Left is AddNode);
 			Assert.AreEqual(3, resolved);
 		}
 
 		[TestMethod]
 		public void Evaluator_convergeOperators_MultipleResolve() {
-			List<Node> nodes = new List<Node>() {
+			var nodes = new List<Node>
+			{
 				new ConstantNode(1),
 				new AddNode(),
 				new ConstantNode(1),
@@ -188,17 +191,18 @@ namespace ExpressionEvalTests {
 				new ConstantNode(1)
 			};
 
-			var resolved = Evaluator.convergeOperators(nodes);
+			var resolved = Evaluator.ConvergeOperators(nodes);
 
 			Assert.IsTrue(resolved is AddNode);
-			Assert.IsTrue((resolved as AddNode).left is AddNode);
-			Assert.IsTrue(((resolved as AddNode).left as AddNode).left is AddNode);
+			Assert.IsTrue((resolved as AddNode).Left is AddNode);
+			Assert.IsTrue(((resolved as AddNode).Left as AddNode).Left is AddNode);
 			Assert.AreEqual(4, resolved);
 		}
 
 		[TestMethod]
 		public void Evaluator_convergeOperators_BODMAS() {
-			List<Node> nodes = new List<Node>() {
+			var nodes = new List<Node>
+			{
 				new ConstantNode(13),
 				new SubtractNode(),
 				new ConstantNode(3),
@@ -210,14 +214,14 @@ namespace ExpressionEvalTests {
 				new ConstantNode(2)
 			};
 
-			var resolved = Evaluator.convergeOperators(nodes);
+			var resolved = Evaluator.ConvergeOperators(nodes);
 
 			Assert.AreEqual(0, resolved);
 		}
 
 		[TestMethod]
 		public void Evaluator_Harsh() {
-			int result = Evaluator.evaluate("100 / 5 + ((88 / 44) * 1) - -(10 -10 + -10)");
+			var result = Evaluator.Evaluate("100 / 5 + ((88 / 44) * 1) - -(10 -10 + -10)");
 
 			Assert.AreEqual(12, result);
 		}

@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExpressionEval.Nodes {
+﻿namespace ExpressionEval.Nodes {
 	public class ConstantNode : Node {
-		private int val;
+		public override int Value { get; }
 
 		public ConstantNode(int value) {
-			val = value;
+			Value = value;
 		}
 
-		public override int value => val;
-
-		public static implicit operator ConstantNode(int val) {
-			return new ConstantNode(val);
-		}
+		public static implicit operator ConstantNode(int val) => new ConstantNode(val);
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using ExpressionEval.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace ExpressionEvalTests {
 	[TestClass]
@@ -9,7 +8,7 @@ namespace ExpressionEvalTests {
 		public void ConstantNode_ReadWrite() {
 			var node = new ConstantNode(3487);
 
-			Assert.AreEqual(node.value, 3487);
+			Assert.AreEqual(node.Value, 3487);
 		}
 
 		[TestMethod]
@@ -20,7 +19,7 @@ namespace ExpressionEvalTests {
 				result = val1 + val2;
 			var node = new AddNode(new ConstantNode(val1), new ConstantNode(val2));
 
-			Assert.AreEqual(node.value, result);
+			Assert.AreEqual(node.Value, result);
 		}
 
 		[TestMethod]
@@ -31,7 +30,7 @@ namespace ExpressionEvalTests {
 				result = val1 - val2;
 			var node = new SubtractNode(new ConstantNode(val1), new ConstantNode(val2));
 
-			Assert.AreEqual(node.value, result);
+			Assert.AreEqual(node.Value, result);
 		}
 
 		[TestMethod]
@@ -42,7 +41,7 @@ namespace ExpressionEvalTests {
 				result = val1 * val2;
 			var node = new MultiplyNode(new ConstantNode(val1), new ConstantNode(val2));
 
-			Assert.AreEqual(node.value, result);
+			Assert.AreEqual(node.Value, result);
 		}
 
 		[TestMethod]
@@ -53,14 +52,14 @@ namespace ExpressionEvalTests {
 				result = val1 / val2;
 			var node = new DivideNode(new ConstantNode(val1), new ConstantNode(val2));
 
-			Assert.AreEqual(node.value, result);
+			Assert.AreEqual(node.Value, result);
 		}
 
 		[TestMethod]
 		public void ConstantNode_Implicit_FromInt() {
 			ConstantNode node = 1;
 
-			Assert.AreEqual(node.value, 1);
+			Assert.AreEqual(node.Value, 1);
 		}
 
 		[TestMethod]
