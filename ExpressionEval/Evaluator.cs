@@ -18,7 +18,7 @@ namespace ExpressionEval {
 
 			if (!expression.StartsWith("("))
 				expression = '(' + expression;
-			if (!expression.EndsWith("("))
+			if (!expression.EndsWith(")"))
 				expression += ')';
 
 			// Simplifying here is much simpler than down there
