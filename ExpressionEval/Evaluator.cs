@@ -46,13 +46,11 @@ namespace ExpressionEval {
 					var value = int.Parse(number);
 					ConstantNode constant = value;
 
-					index = numberend;
-
 					nodes.Add(constant);
+					index = numberend;
 				} else if (expression[index].IsOperator()) {
 					var op = expression[index];
 					nodes.Add(GetArithmaticNode(op));
-
 					index++;
 				} else if (expression[index] == '(') {
 					nodes.Add(BuildExpression(index + 1, expression, out var subexplength));
@@ -109,7 +107,7 @@ namespace ExpressionEval {
 
 				var @operator = (SubtractNode)nodes[i];
 				@operator.Right = nodes[i + 1];
-				nodes.RemoveAt(i+1);
+				nodes.RemoveAt(i + 1);
 			}
 		}
 
