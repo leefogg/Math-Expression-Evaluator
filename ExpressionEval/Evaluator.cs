@@ -62,7 +62,7 @@ namespace ExpressionEval {
 			return result;
 		}
 
-		public static Node ConvergeOperators(List<Node> nodes) {
+		public static Node ConvergeOperators(IList<Node> nodes) {
 			if (nodes.Count == 1)
 				return nodes[0];
 
@@ -98,11 +98,12 @@ namespace ExpressionEval {
 				if (!(nodes[i] is SubtractNode))
 					continue;
 
-				if ((i == 0 || !(nodes[i - 1] is ConstantNode)) && i < nodes.Count) {
-					var @operator = (SubtractNode)nodes[i];
-					@operator.Right = nodes[i + 1];
-					nodes.RemoveAt(i+1);
-				}
+				if (i != 0 && nodes[i - 1] is ConstantNode || i >= nodes.Count)
+					continue;
+
+				var @operator = (SubtractNode)nodes[i];
+				@operator.Right = nodes[i + 1];
+				nodes.RemoveAt(i+1);
 			}
 		}
 
