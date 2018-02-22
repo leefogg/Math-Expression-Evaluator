@@ -43,7 +43,7 @@ namespace ExpressionEval {
 					var numberend = FindEndOfNumber(index, expression);
 					var number = expression.Substring(index, numberend - index);
 
-					var value = int.Parse(number);
+					var value = float.Parse(number);
 					ConstantNode constant = value;
 
 					nodes.Add(constant);
@@ -120,7 +120,7 @@ namespace ExpressionEval {
 			return startindex;
 		}
 
-		private static bool IsNumber(this char character) => character >= '0' && character <= '9';
+		private static bool IsNumber(this char character) => (character >= '0' && character <= '9') || character == '.';
 
 		private static bool IsOperator(this char character) => Operators.ContainsKey(character);
 	}

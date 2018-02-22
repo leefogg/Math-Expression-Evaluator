@@ -9,15 +9,31 @@ namespace ExpressionEvalTests {
 	public class EvaluatorTests {
 		[TestMethod]
 		public void Evaluator_SimpleConstant() {
-			var result = Evaluator.Evaluate("42");
+			int target = 42;
+			var result = Evaluator.Evaluate("" + target);
 
-			Assert.AreEqual(42, result);
+			Assert.AreEqual(target, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_FloatConstant() {
+			float target = 3.14159f;
+			var result = Evaluator.Evaluate("" + target);
+
+			Assert.AreEqual(target, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_FloatConstant_NoIntegerPart() {
+			var result = Evaluator.Evaluate(".1");
+
+			Assert.AreEqual(.1f, result);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(OverflowException))]
 		public void Evaluator_LargeConstant() {
-			var result = Evaluator.Evaluate("44534534635734232");
+			Evaluator.Evaluate("445345346357342324453453463573423244534534635734232");
 		}
 
 		[TestMethod]
@@ -116,6 +132,13 @@ namespace ExpressionEvalTests {
 			var result = Evaluator.Evaluate("10/2");
 
 			Assert.AreEqual(5, result);
+		}
+
+		[TestMethod]
+		public void Evaluator_FloatMath() {
+			var result = Evaluator.Evaluate("10/3*3");
+
+			Assert.AreEqual(10, result);
 		}
 
 		[TestMethod]
