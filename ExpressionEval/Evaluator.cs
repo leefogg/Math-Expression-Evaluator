@@ -16,10 +16,7 @@ namespace ExpressionEval {
 		private static string NormalizeExpression(string expression) {
 			expression = expression.Replace(" ", "");
 
-			if (!expression.StartsWith("("))
-				expression = '(' + expression;
-			if (!expression.EndsWith(")"))
-				expression += ')';
+			expression = $"({expression})";
 
 			// Simplifying here is much simpler than down there
 			expression = expression.Replace("--", "+");
