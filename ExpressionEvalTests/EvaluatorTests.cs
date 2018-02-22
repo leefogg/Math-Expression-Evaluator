@@ -63,6 +63,13 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Evaluator_NothingInBrackets() {
+			var result = Evaluator.Evaluate("()");
+
+			Assert.AreEqual(0, result);
+		}
+
+		[TestMethod]
 		public void Evaluator_Add() {
 			var result = Evaluator.Evaluate("1+1");
 

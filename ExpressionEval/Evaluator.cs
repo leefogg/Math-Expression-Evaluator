@@ -63,6 +63,8 @@ namespace ExpressionEval {
 		}
 
 		public static Node ConvergeOperators(IList<Node> nodes) {
+			if (nodes.Count == 0)
+				return Node.ZERO;
 			if (nodes.Count == 1)
 				return nodes[0];
 
