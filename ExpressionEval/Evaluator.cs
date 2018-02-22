@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using ExpressionEval.Nodes;
 
 namespace ExpressionEval {
 	public static class Evaluator {
-		private static readonly char[] Operators = { '+', '-', '*', '/' };
+		private static readonly Dictionary<char, Func<ArithmeticNode>> Operators = new Dictionary<char, Func<ArithmeticNode>> {
+			{'+', () => new AddNode() },
+			{'-', () => new SubtractNode()},
+			{'*', () => new MultiplyNode()},
+			{'/', () => new DivideNode()}
+		};
 
 		public static int Evaluate(string expression) {
 			expression = NormalizeExpression(expression);
@@ -106,20 +113,7 @@ namespace ExpressionEval {
 			}
 		}
 
-		private static ArithmeticNode GetArithmaticNode(char op) {
-			switch (op) {
-				case '+':
-					return new AddNode();
-				case '-':
-					return new SubtractNode();
-				case '*':
-					return new MultiplyNode();
-				case '/':
-					return new DivideNode();
-			}
-
-			return null;
-		}
+		private static ArithmeticNode GetArithmaticNode(char @operator) => Operators[@operator]();
 
 		private static int FindEndOfNumber(int startindex, string expression) {
 			while (startindex < expression.Length && expression[startindex].IsNumber())
@@ -128,14 +122,8 @@ namespace ExpressionEval {
 			return startindex;
 		}
 
-		private static bool IsNumber(this char character)
-		{
-			return character >= '0' && character <= '9';
-		}
+		private static bool IsNumber(this char character) => character >= '0' && character <= '9';
 
-		private static bool IsOperator(this char character)
-		{
-			return Operators.Any(c => c == character);
-		}
+		private static bool IsOperator(this char character) => Operators.ContainsKey(character);
 	}
 }
