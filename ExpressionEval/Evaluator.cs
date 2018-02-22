@@ -13,7 +13,7 @@ namespace ExpressionEval {
 			{'/', () => new DivideNode()}
 		};
 
-		public static int Evaluate(string expression) {
+		public static float Evaluate(string expression) {
 			expression = NormalizeExpression(expression);
 
 			var evaluationtree = BuildExpression(1, expression, out var explength);

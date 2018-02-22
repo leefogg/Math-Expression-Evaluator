@@ -63,10 +63,17 @@ namespace ExpressionEvalTests {
 		}
 
 		[TestMethod]
+		public void Node_Implicit_ToFloat() {
+			Node node = new ConstantNode(10);
+
+			Assert.AreEqual(10f, node);
+		}
+
+		[TestMethod]
 		public void Node_Implicit_ToInt() {
 			Node node = new ConstantNode(10);
 
-			Assert.AreEqual(node, 10);
+			Assert.AreEqual(10f, node);
 		}
 	}
 }

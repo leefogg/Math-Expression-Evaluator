@@ -3,6 +3,6 @@
 		public AddNode() {}
 		public AddNode(Node left, Node right) : base(left, right) {}
 
-		public override int Value => Left + Right;
+		public override float Value => Left + Right;
 	}
 }

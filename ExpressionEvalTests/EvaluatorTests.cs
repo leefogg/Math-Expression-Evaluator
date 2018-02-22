@@ -192,7 +192,7 @@ namespace ExpressionEvalTests {
 			var resolved = Evaluator.ConvergeOperators(nodes);
 
 			Assert.IsTrue(resolved is AddNode);
-			Assert.AreEqual(2, resolved);
+			Assert.AreEqual(2f, resolved);
 		}
 
 		[TestMethod]
@@ -210,7 +210,7 @@ namespace ExpressionEvalTests {
 
 			Assert.IsTrue(resolved is AddNode);
 			Assert.IsTrue((resolved as AddNode).Left is AddNode);
-			Assert.AreEqual(3, resolved);
+			Assert.AreEqual(3f, resolved);
 		}
 
 		[TestMethod]
@@ -231,7 +231,7 @@ namespace ExpressionEvalTests {
 			Assert.IsTrue(resolved is AddNode);
 			Assert.IsTrue((resolved as AddNode).Left is AddNode);
 			Assert.IsTrue(((resolved as AddNode).Left as AddNode).Left is AddNode);
-			Assert.AreEqual(4, resolved);
+			Assert.AreEqual(4f, resolved);
 		}
 
 		[TestMethod]
@@ -251,7 +251,7 @@ namespace ExpressionEvalTests {
 
 			var resolved = Evaluator.ConvergeOperators(nodes);
 
-			Assert.AreEqual(0, resolved);
+			Assert.AreEqual(0f, resolved);
 		}
 
 		[TestMethod]
