@@ -53,8 +53,8 @@ namespace ExpressionEval {
 					nodes.Add(GetArithmaticNode(op));
 					index++;
 				} else if (expression[index] == '(') {
-					nodes.Add(BuildExpression(index + 1, expression, out var subexplength));
-					index += subexplength + 1;
+					nodes.Add(BuildExpression(++index, expression, out var subexplength));
+					index += subexplength;
 				}
 			}
 
